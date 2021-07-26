@@ -1,15 +1,19 @@
 package com.tmonet.transportforyou.base
 
-import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDialog
+import com.tmonet.transportforyou.R
 import com.tmonet.transportforyou.utils.NetworkState
 
 
 open class BaseActivity : AppCompatActivity(){
     private val logTag: String = this.javaClass.simpleName
     private var networkState: NetworkState? = null
+    var pd: AppCompatDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,6 +62,37 @@ open class BaseActivity : AppCompatActivity(){
 
         when (requestCode) {
 
+        }
+    }
+
+    fun showLoading() {
+        if (!this.isFinishing) {
+            runOnUiThread {
+                if (pd == null) {
+                    pd = AppCompatDialog(this)
+                    pd!!.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+                    pd!!.setContentView(R.layout.progress_loading)
+                    pd!!.setCancelable(false)
+
+                    val img_loading_frame = pd!!.findViewById<ImageView>(R.id.iv_frame_loading)
+                    val frameAnimation = img_loading_frame?.getBackground() as AnimationDrawable
+                    img_loading_frame?.post(Runnable { frameAnimation.start() })
+                    if (!this.isFinishing) pd!!.show()
+
+                } else {
+                    if (pd != null)
+                        pd!!.show()
+                }
+            }
+        }
+    }
+
+    fun hideLoading() {
+        if (!this.isFinishing) {
+            runOnUiThread {
+                if (pd != null)
+                    pd!!.dismiss()
+            }
         }
     }
 }

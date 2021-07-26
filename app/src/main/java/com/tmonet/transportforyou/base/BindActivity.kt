@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.tmonet.transportforyou.utils.LoadingDialog
 
 abstract class BindActivity<B : ViewDataBinding> : BaseActivity() {
     protected lateinit var b: B
@@ -14,8 +13,6 @@ abstract class BindActivity<B : ViewDataBinding> : BaseActivity() {
      * ex) R.layout.activity_main
      */
     protected abstract val layoutId: Int
-
-    private var loadingDialog: LoadingDialog? = null
 
     /**
      * 레이아웃을 띄운 직후 호출.
@@ -50,24 +47,6 @@ abstract class BindActivity<B : ViewDataBinding> : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-
-        loadingDialog?.dismiss()
-    }
-
-    private fun showLoading() {
-        loadingDialog?.run {
-            if(!isShowing){
-                show()
-            }
-        }
-    }
-
-    private fun hideLoading() {
-        loadingDialog?.run {
-            if(isShowing){
-                dismiss()
-            }
-        }
     }
 
     open fun onClicks(view: View) {

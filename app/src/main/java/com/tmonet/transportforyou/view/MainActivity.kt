@@ -25,8 +25,10 @@ class MainActivity : BindActivity<ActivityMainBinding>() {
     }
 
     override fun initStartView() {
+        showLoading()
         initView()
         initValue()
+        hideLoading()
     }
 
     override fun initDataBinding() {}
